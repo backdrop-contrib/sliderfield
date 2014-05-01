@@ -147,7 +147,13 @@ function _sliderfield_element_info_sliderfield() {
      * for fields, since integer fields have range validation
      * values : TRUE , FALSE
      */
-    '#validate_range' => TRUE
+    '#validate_range' => TRUE,
+    /**
+     * In case there are other fields that should be sync dynamically when
+     * the slider changes
+     * value : .my_field_css_class
+     */
+     '#fields_to_sync_css_selector' => NULL,
   );
   $types['jslider'] = $types['slider'];
   return $types;
@@ -193,13 +199,14 @@ function _sliderfield_element_sliderfield_structure($element, &$form_state) {
     */
   }
 
-  if ($value < $element['#min']) {
-    $value = $element['#min'];
+  if (!is_null($value) && $value !== '') {
+    if ($value < $element['#min']) {
+      $value = $element['#min'];
+    }
+    if ($value > $element['#max']) {
+      $value = $element['#max'];
+    }
   }
-  if ($value > $element['#max']) {
-    $value = $element['#max'];
-  }
-
   $values = array();
   $values[] = $value;
 
@@ -252,13 +259,14 @@ function _sliderfield_element_sliderfield_structure($element, &$form_state) {
 
   if (!is_null($value2)) {
 
-    if ($value2 < $element['#min']) {
-      $value2 = $element['#min'];
+    if (!is_null($value2) && $value2 !== '') {
+      if ($value2 < $element['#min']) {
+        $value2 = $element['#min'];
+      }
+      if ($value2 > $element['#max']) {
+        $value2 = $element['#max'];
+      }
     }
-    if ($value2 > $element['#max']) {
-      $value2 = $element['#max'];
-    }
-
     if ($value2 < $value) {
       $value2 = $value;
     }
@@ -321,12 +329,13 @@ function _sliderfield_element_sliderfield_structure($element, &$form_state) {
               'step' => $element['#step'] * 1,
               'display_inputs' => $element['#display_inputs'],
               'display_values_format' => $element['#display_values_format'],
-              'display_bubble' => $element['#display_bubble'],
+              'display_bubble' => $element['#display_bubble'],'display_bubble' => $element['#display_bubble'],
               'display_bubble_format' => $element['#display_bubble_format'],
               'display_values' => $element['#display_values'],
               'group' => $element['#group'],
               'group_type' => $element['#group_type'],
-              'group_master' => $element['#group_master']
+              'group_master' => $element['#group_master'],
+              'fields_to_sync_css_selector' => $element['#fields_to_sync_css_selector']
             )
           ),
           'type' => 'setting',
@@ -449,6 +458,9 @@ function _sliderfield_field_widget_info_sliderfield() {
     'sliderfield' => array(
       'label' => t('Slider'),
       'field types' => array('number_decimal', 'number_integer', 'number_float'),
+      'behaviors' => array(
+        'multiple values' => FIELD_BEHAVIOR_CUSTOM,
+      ),
       'settings' => array(
         'sliderfield_settings' => array(
           /**
@@ -517,6 +529,14 @@ function _sliderfield_field_widget_info_sliderfield() {
            *
            */
           'hide_inputs' => TRUE,
+          /**
+           * Whether the slider represents more than one value.
+           * Multiple types supported:
+           *   0/False: Disabled.
+           *   "separate" : Enabled. Uses field's multi value feature to store the values, currently only 2 values are supported.
+		   *        A separate handle for each value will be shown on slider
+           */
+          'multi_value' => FALSE
         )
       ),
     ),
@@ -527,9 +547,9 @@ function _sliderfield_field_widget_info_sliderfield() {
  * @param $field
  * @param $instance
  */
-function _sliderfield_field_widget_settings_form_sliderfield($field, $instance) {
+function _sliderfield_field_widget_settings_form_sliderfield($field = NULL, $instance = NULL) {
   $widget = $instance['widget'];
-
+  $form = array();
   if ($widget['type'] == 'sliderfield') {
     $settings = $widget['settings']['sliderfield_settings'];
     $form['sliderfield_settings'] = array(
@@ -540,37 +560,41 @@ function _sliderfield_field_widget_settings_form_sliderfield($field, $instance) 
       '#weight' => 0
     );
 
-    $entity_fields = field_info_instances($instance['entity_type'], $instance['bundle']);
-    $all_fields = field_info_fields();
-    $supported_field_types = array('number_decimal', 'number_integer', 'number_float');
-    $valid_fields = array();
+    if (!is_null($field) && !is_null($instance)) {
+      $entity_fields = field_info_instances($instance['entity_type'], $instance['bundle']);
+      $all_fields = field_info_fields();
+      $supported_field_types = array('number_decimal', 'number_integer', 'number_float');
+      $valid_fields = array();
 
-    // Get a list of all valid fields that we both support and are part of this entity
-    foreach ($all_fields as $_field) {
-      if (array_key_exists($_field['field_name'], $entity_fields)) {
-        if (in_array($_field['type'], array_values($supported_field_types)) && ($_field['field_name'] != $field['field_name'])) {
-          $valid_fields[$_field['field_name']] = $entity_fields[$_field['field_name']]['label'];
+      // Get a list of all valid fields that we both support and are part of this entity
+      foreach ($all_fields as $_field) {
+        if (array_key_exists($_field['field_name'], $entity_fields)) {
+          if (in_array($_field['type'], array_values($supported_field_types)) && ($_field['field_name'] != $field['field_name'])) {
+             $valid_fields[$_field['field_name']] = $entity_fields[$_field['field_name']]['label'];
+          }
         }
       }
+
+     $valid_fields = array('' => '--') + $valid_fields;
+     $form['sliderfield_settings']['adjust_field_min'] = array(
+       '#type' => 'select',
+       '#title' => t('Adjust the Minimum value from field'),
+       '#default_value' => isset($settings['adjust_field_min']) ? $settings['adjust_field_min']: '',
+       '#options' => $valid_fields,
+       '#description' => t('Select which field you would like to use to adjust the slider\'s Minimum value.'),
+     );
+
+     $valid_fields = array('' => '--') + $valid_fields;
+     $form['sliderfield_settings']['adjust_field_max'] = array(
+        '#type' => 'select',
+        '#title' => t('Adjust the Maximum value from field'),
+        '#default_value' => isset($settings['adjust_field_max']) ? $settings['adjust_field_max']: '',
+        '#options' => $valid_fields,
+        '#description' => t('Select which field you would like to use to adjust the slider\'s Maximum value.'),
+      );
     }
 
-    $valid_fields = array('' => '--') + $valid_fields;
-    $form['sliderfield_settings']['adjust_field_min'] = array(
-      '#type' => 'select',
-      '#title' => t('Adjust the Minimum value from field'),
-      '#default_value' => isset($settings['adjust_field_min']) ? $settings['adjust_field_min']: '',
-      '#options' => $valid_fields,
-      '#description' => t('Select which field you would like to use to adjust the slider\'s Minimum value.'),
-    );
 
-    $valid_fields = array('' => '--') + $valid_fields;
-    $form['sliderfield_settings']['adjust_field_max'] = array(
-      '#type' => 'select',
-      '#title' => t('Adjust the Maximum value from field'),
-      '#default_value' => isset($settings['adjust_field_max']) ? $settings['adjust_field_max']: '',
-      '#options' => $valid_fields,
-      '#description' => t('Select which field you would like to use to adjust the slider\'s Maximum value.'),
-    );
 
     $form['sliderfield_settings']['animate'] = array(
       '#type' => 'select',
@@ -666,6 +690,16 @@ function _sliderfield_field_widget_settings_form_sliderfield($field, $instance) 
       '#description' => t('If enabled displays only the slider and hides input textfields.'),
       '#default_value' => $settings['hide_inputs']
     );
+    $form['sliderfield_settings']['multi_value'] = array(
+      '#type' => 'select',
+      '#title' => t('Multi Value'),
+      '#options' => array(
+        FALSE => t('Disable'),
+        'separate' => t('Enable')
+      ),
+      '#description' => t('Uses field\'s multi value feature to store the values, currently only 2 values are supported. A separate handle for each value will be shown on slider'),
+      '#default_value' => (!isset($settings['multi_value'])) ? '' : $settings['multi_value']
+    );
   }
 
   return $form;
@@ -685,6 +719,11 @@ function _sliderfield_field_widget_settings_form_sliderfield($field, $instance) 
 function _sliderfield_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
   switch ($instance['widget']['type']) {
     case 'sliderfield':
+      if (!is_null($field)) {
+        $multiple = $field['cardinality'] > 1 || $field['cardinality'] == FIELD_CARDINALITY_UNLIMITED;
+      }
+	  //$has_value = isset($items[0][$value_key]);
+
       $settings = $instance['widget']['settings']['sliderfield_settings'];
       $value = NULL;
       if (!empty($items) && isset($items[$delta])) {
@@ -730,7 +769,8 @@ function _sliderfield_field_widget_form(&$form, &$form_state, $field, $instance,
         '#slider_length' => $settings['slider_length'],
         '#display_inside_fieldset' => FALSE,
         '#validate_range' => FALSE,
-		'#display_bubble' => $settings['display_bubble']
+        '#display_bubble' => $settings['display_bubble'],
+        '#fields_to_sync_css_selector' => @$settings['fields_to_sync_css_selector']
       );
       break;
   }

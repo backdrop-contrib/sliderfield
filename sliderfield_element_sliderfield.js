@@ -11,13 +11,12 @@
         $(this).addClass('sliderfield-processed');
         var slider_id = $(this).parent().attr('id');
         var setting = settings['sliderfield_' + slider_id];
-
         // Get values
         var $slider = $(this).parents('.sliderfield', context);
 
         var $values = [];
-        var $value = $slider.find('.sliderfield-value-field', context).val() - 0;
-        var $value2 = $slider.find('.sliderfield-value2-field', context).val() - 0;
+        var $value = $slider.find('.sliderfield-value-field', context).val();
+        var $value2 = $slider.find('.sliderfield-value2-field', context).val();
         if (!isNaN($value2)) {
           $values = [$value, $value2];
         } else {
@@ -28,7 +27,9 @@
         if (!setting.display_inputs) {
           $slider.find('.sliderfield-value-field, .sliderfield-value2-field', context).hide();
           $slider.find('label', $slider.find('.sliderfield-value-field, .sliderfield-value2-field', context).parents()).hide();
+          $slider.find('label', $slider.find('.webform-sliderfield .sliderfield-value-field,.webform-sliderfield .sliderfield-value2-field', context).parents()).show();
         }
+
         // Setup slider
         $(this).slider({
           value: $value,
@@ -42,7 +43,7 @@
           slide: sliderfieldsSlideProcess,
           stop: sliderfieldsSlideStop,
           change: sliderfieldsSlideChange,
-          create: sliderfieldsSlideCreate,
+          create: sliderfieldsSlideCreate
         });
 
         $(document).bind('state:disabled', function(e) {
@@ -65,29 +66,31 @@
         sliderfieldsSlideUpdateFields($slider, {value: $value, values: $values});
 
         // Adjust the range when the target field is changed
-        var adjust_field = $(setting.adjust_field_max_css_selector  + ',' + setting.adjust_field_min_css_selector);
-        if (adjust_field.length) {
-          adjust_field.bind('keyup', function(event) {
-            var $target = $(event.target);
-            var option_name = "";
-            var target_value = parseInt($target.val());
-            if (target_value) {
-              if ($(setting.adjust_field_min_css_selector).index(event.target) != -1) {
-                option_name = "min";
-                $slider.find('.sliderfield-min-value-field', context).val(target_value);
-              } else if ($(setting.adjust_field_max_css_selector).index(event.target) != -1) {
-                option_name = "max";
-                $slider.find('.sliderfield-max-value-field', context).val(target_value);
+		if (setting.adjust_field_max_css_selector || setting.adjust_field_min_css_selector) {
+          var adjust_field = $(setting.adjust_field_max_css_selector  + ',' + setting.adjust_field_min_css_selector);
+          if (adjust_field.length) {
+            adjust_field.bind('keyup', function(event) {
+              var $target = $(event.target);
+              var option_name = "";
+              var target_value = parseInt($target.val());
+              if (target_value) {
+                if ($(setting.adjust_field_min_css_selector).index(event.target) != -1) {
+                  option_name = "min";
+                  $slider.find('.sliderfield-min-value-field', context).val(target_value);
+                } else if ($(setting.adjust_field_max_css_selector).index(event.target) != -1) {
+                  option_name = "max";
+                  $slider.find('.sliderfield-max-value-field', context).val(target_value);
+                }
+                var $SliderField = $slider.find('.sliderfield-container', context);
+                $SliderField.slider("option", option_name, target_value);
+                $SliderField.slider("option", {
+                  "value" : $SliderField.slider('value'),
+                  "values" : $SliderField.slider('values')
+                });
               }
-              var $SliderField = $slider.find('.sliderfield-container', context);
-              $SliderField.slider("option", option_name, target_value);
-              $SliderField.slider("option", {
-                "value" : $SliderField.slider('value'),
-                "values" : $SliderField.slider('values')
-              });
-            }
-          });
-          adjust_field.trigger('keyup');
+            });
+            adjust_field.trigger('keyup');
+	      }
         }
       });
 
@@ -226,6 +229,9 @@
 
     //Manually trigger element change event for compatibility with Drupal's ajax system
     $slider.find('.sliderfield-value-field').trigger('change');
+    if (setting.fields_to_sync_css_selector) {
+        $(setting.fields_to_sync_css_selector).val(ui.value);
+    }
   }
 
   var sliderfieldsSlideCreate = function(event, ui) {
