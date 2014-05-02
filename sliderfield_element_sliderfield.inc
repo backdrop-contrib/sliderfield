@@ -232,7 +232,7 @@ function _sliderfield_element_sliderfield_structure($element, &$form_state) {
     }
   }
 
-  if ($element['#required'] && $element['#display_ignore_button'] && !$element['#display_inputs']) {
+  if ($element['#display_ignore_button'] && !$element['#display_inputs']) {
       $element['ignore'] = array(
         '#type' => 'checkbox',
         '#title' => t('Not Selected (Uncheck to select a value)'),
