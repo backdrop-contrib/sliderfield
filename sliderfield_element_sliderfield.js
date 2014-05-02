@@ -58,8 +58,25 @@
             // See https://bugs.webkit.org/show_bug.cgi?id=23789
           }
         });
-
-        if (setting.disabled) {
+        if (setting.display_ignore_button) {
+          $slider.find('.sliderfield-ignore').change(function() {
+            var $slider = $(this).parents('.sliderfield, .webform-sliderfield').find('.sliderfield');
+            var $slider_container = $slider.find('.sliderfield-container');
+            $slider_id = $slider.attr('id');
+            var setting = Drupal.settings['sliderfield_' + $slider_id];
+            if ($(this).is(':checked')) {
+              $slider.parents('.sliderfield').find('.sliderfield-value-field').val('');
+              $slider.parents('.sliderfield').find('.sliderfield-value2-field').val('');
+              if (setting.fields_to_sync_css_selector) {
+                $(setting.fields_to_sync_css_selector).val('');
+              }
+              $slider_container.slider( "disable" );
+            } else {
+              $slider_container.slider( "enable" );
+            }
+          });
+        }
+        if (setting.disabled || ($value == '' && setting.display_ignore_button)) {
           $(this).slider( "disable" );
         }
 
@@ -92,6 +109,10 @@
             adjust_field.trigger('keyup');
 	      }
         }
+
+        if (setting.hide_slider_handle_when_no_value && $value == '') {
+          $slider.find('.ui-slider-handle').hide();
+        }
       });
 
 
@@ -104,27 +125,30 @@
             var $slider = $(this).parents('.sliderfield', context);
 
             // Left input value
-            var $value = $(this).val() - 0;
-            if (isNaN($value)) {
-              $value = 0;
-              $slider.find('.sliderfield-value-field', context).val($value);
+            var $value = $(this).val();
+            if ($value != '') {
+              $value = $value - 0;
+              if (isNaN($value)) {
+                $value = 0;
+                $slider.find('.sliderfield-value-field', context).val($value);
+              }
+
+              // Get slider max value
+              var $SliderField = $slider.find('.sliderfield-container', context);
+              var $max = $SliderField.slider('option', 'max');
+
+              // Validate left input
+              if ($value > $max) {
+                $value = $max;
+                $slider.find('.sliderfield-value-field', context).val($value);
+              }
+
+              // Setup right value
+              //$slider.find('.sliderfield-right-field', context).val($max - $left);
+
+              // Move slider without toggling events
+              $SliderField.slider({value: $value});
             }
-
-            // Get slider max value
-            var $SliderField = $slider.find('.sliderfield-container', context);
-            var $max = $SliderField.slider('option', 'max');
-
-            // Validate left input
-            if ($value > $max) {
-              $value = $max;
-              $slider.find('.sliderfield-value-field', context).val($value);
-            }
-
-            // Setup right value
-            //$slider.find('.sliderfield-right-field', context).val($max - $left);
-
-            // Move slider without toggling events
-            $SliderField.slider({value: $value});
           });
 
       // Bind left textfield changes
@@ -136,27 +160,30 @@
             var $slider = $(this).parents('.sliderfield', context);
 
             // Left input value
-            var $value = $(this).val() - 0;
-            if (isNaN($value)) {
-              $value = 0;
-              $slider.find('.sliderfield-value2-field', context).val($value);
+            var $value = $(this).val();
+            if ($value != '') {
+              $value = $value - 0;
+              if (isNaN($value)) {
+                $value = 0;
+                $slider.find('.sliderfield-value2-field', context).val($value);
+              }
+
+              // Get slider max value
+              var $SliderField = $slider.find('.sliderfield-container', context);
+              var $max = $SliderField.slider('option', 'max');
+
+              // Validate left input
+              if ($value > $max) {
+                $value = $max;
+                $slider.find('.sliderfield-value2-field', context).val($value);
+              }
+
+              // Setup right value
+              //$slider.find('.sliderfield-right-field', context).val($max - $left);
+
+              // Move slider without toggling events
+              $SliderField.slider('values', 1, $value);
             }
-
-            // Get slider max value
-            var $SliderField = $slider.find('.sliderfield-container', context);
-            var $max = $SliderField.slider('option', 'max');
-
-            // Validate left input
-            if ($value > $max) {
-              $value = $max;
-              $slider.find('.sliderfield-value2-field', context).val($value);
-            }
-
-            // Setup right value
-            //$slider.find('.sliderfield-right-field', context).val($max - $left);
-
-            // Move slider without toggling events
-            $SliderField.slider('values', 1, $value);
           });
     }
   }
@@ -204,6 +231,7 @@
 
     $slider_id = $slider.attr('id');
     var setting = Drupal.settings['sliderfield_' + $slider_id];
+    $slider.find('.ui-slider-handle').show();
     // Sync other sliders in the same group
     if (setting.group) {
       var $group_sliders = $('.sliderfield:[id!="' + $slider_id + '"].sliderfield-group-' + setting.group);
