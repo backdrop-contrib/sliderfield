@@ -329,7 +329,7 @@ function _sliderfield_element_sliderfield_structure($element, &$form_state) {
   if ($element['#hide_slider_handle_when_no_value']) {
     $element['note'] = array(
       '#type' => 'markup',
-      '#markup' => t('Please click on any part of the slider to select a value')
+      '#markup' => '<div class="sliderfield-selectvalue-description">' . t('Please click on any part of the slider to select a value') . '</div>'
     );
   }
 
