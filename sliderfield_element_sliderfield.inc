@@ -333,10 +333,14 @@ function _sliderfield_element_sliderfield_structure($element, &$form_state) {
     );
   }
 
+ $_attributes_new = array('class' => array('sliderfield-container', $element['#slider_style']), 'style' => $style);
+ if (isset($element['#attributes']) && is_array($element['#attributes'])) {
+   $_attributes_new = drupal_array_merge_deep($_attributes_new, $element['#attributes']);
+ }
  // Create markup for slider container
   $element['container'] = array(
     '#type' => 'container',
-    '#attributes' => array('class' => array('sliderfield-container', $element['#slider_style']), 'style' => $style),
+    '#attributes' => $_attributes_new,
     '#attached' => array(
       'library' => array(
         array('system', 'ui.slider')
@@ -779,7 +783,7 @@ function _sliderfield_field_widget_form(&$form, &$form_state, $field, $instance,
 
       $settings = $instance['widget']['settings']['sliderfield_settings'];
       $value = NULL;
-      if (!empty($items) && isset($items[$delta])) {
+      if (!empty($items) && isset($items[$delta]) && isset($items[$delta]['value'])) {
         $value = $items[$delta]['value'];
       } else {
         $value = $instance['settings']['min'];
