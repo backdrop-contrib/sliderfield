@@ -22,6 +22,10 @@ FEATURES
 - Supports integer , float and decimal numbers as step
 - Can display bubble/hint near slider handles
 - Compatible with editablefields module
+- Fields using slider field can have empty value, proper UI is implemented to handle it
+- Full Webform integration
+- Compatibility with form api #states
+- Customizable through #attributes and proper css wrappers
 
 Notice : It's not yet possible to create two handled sliders via Field UI
 
