@@ -192,6 +192,9 @@
     var $slider = $(this).parents('.sliderfield');
     $slider_id = $slider.attr('id');
     var setting = Drupal.settings['sliderfield_' + $slider_id];
+    // Execute a change on the value text areas to initiate any ajax calls.
+    $value = $slider.find('.sliderfield-value-field').change();
+    $value2 = $slider.find('.sliderfield-value2-field').change();
     if (ui.value) {
       //setting.value = ui.value;
       //setting.current_value = ui.value;
