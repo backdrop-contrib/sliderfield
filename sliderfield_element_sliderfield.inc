@@ -188,8 +188,8 @@ function _sliderfield_element_sliderfield_structure($element, &$form_state) {
   */
 
   if (is_array($element['#value'])) {
-    $value = @$element['#value']['value'];
-    $value2 = @$element['#value']['value2'];
+    $value = isset($element['#value']['value']) ? $element['#value']['value'] : NULL;
+    $value2 = isset($element['#value']['value2']) ? $element['#value']['value2'] : NULL;
   } else {
     $value = $element['#value'];
     $value2 = NULL;
