@@ -190,7 +190,7 @@ function sliderfield_example_custom_form($form, &$form_state) {
     '#max' => 1000,
     '#step' => 1,
 	'#display_bubble' => TRUE,
-	'#display_bubble_format' => '$%{value}%',
+	'#display_bubble_format' => '$%{value}%MIN||$%{value}%MAX',
     //'#required' => 1,
     //'#disabled' => TRUE,
     //'#display_inputs' => FALSE,

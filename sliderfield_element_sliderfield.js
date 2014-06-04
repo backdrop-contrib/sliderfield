@@ -219,7 +219,12 @@
     for(var i = 0; i < $values.length; i++) {
       // Update handler bubble
       if (setting.display_bubble) {
-        var bubble_value = setting.display_bubble_format.replace('%{value}%', $values[i]);
+        if (setting.display_bubble_format.indexOf('||') > 0) {
+          var bubble_formats = setting.display_bubble_format.split('||');
+          var bubble_value = bubble_formats[i].replace('%{value}%', $values[i]);
+        } else {
+          var bubble_value = setting.display_bubble_format.replace('%{value}%', $values[i]);
+        }
         $('#' + $slider_id + ' .ui-slider-handle:eq(' + i + ') .sliderfield-bubble').html(bubble_value);
       }
       $values[i] = setting.display_values_format.replace('%{value}%', $values[i]);
