@@ -274,7 +274,7 @@
     if (setting.display_bubble) {
       var handle = $(this).find('.ui-slider-handle');
       var bubble_value = '';
-      var bubble = $('<div class="sliderfield-bubble">' + bubble_value + '</div>');
+      var bubble = $('<div class="sliderfield-bubble-wrapper"><div class="sliderfield-bubble">' + bubble_value + '</div></div>');
       handle.append(bubble);
     }
   }
