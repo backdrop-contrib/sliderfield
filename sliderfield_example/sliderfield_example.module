@@ -55,12 +55,12 @@ function sliderfield_example_custom_form($form, &$form_state) {
 
   $form['Simple Slider'] = array(
     '#type' => 'fieldset',
-    '#title' => t('Simple Slider')
+    '#title' => t('Simple Slider'),
   );
   
   $form['Simple Slider']['slider1'] = array(
     '#type' => 'slider',
-    '#title' => 'Simple Slier',
+    '#title' => 'Simple Slider',
     '#title2' => NULL,
     '#input_title' => t('Min'),
     '#input2_title' => t('Max'),
@@ -176,8 +176,28 @@ function sliderfield_example_custom_form($form, &$form_state) {
      * for fields, since integer fields have range validation
      * values : TRUE , FALSE
      */
-    '#validate_range' => TRUE
+    '#validate_range' => TRUE,
+    /**
+     * In case there are other fields that should be sync dynamically when
+     * the slider changes
+     * value : .my_field_css_class
+     */
+    '#fields_to_sync_css_selector' => NULL,
+     /**
+      * When field is not required, and display_inputs option is inactive
+      * a checkbox will be shown allowing user to ignore the field
+      * and enter no value
+      * values : TRUE , FALSE
+      */
+     '#display_ignore_button' => FALSE,
+     /**
+      * When the slider does not have any value by enabling this option it won't show the
+      * the slider handle unless user clicks on the slider to select a value
+      * values : TRUE , FALSE
+      */
+     '#hide_slider_handle_when_no_value' => FALSE,
   );
+  
   
   $form['Simple Slider']['slider2'] = array(
     '#title' => 'Range Slider',
@@ -275,6 +295,54 @@ function sliderfield_example_custom_form($form, &$form_state) {
   } else {
     $form['ajax_simple']['container']['#markup'] = t('You have not moved the slider yet');
   }
+  
+  $form['Default Value'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Default Value'),
+  );
+  
+  $form['Default Value']['slider1'] = array(
+    '#type' => 'slider',
+    '#title' => 'No handle when default value is empty',
+	/**
+	* When field is not required, and display_inputs option is inactive
+	* a checkbox will be shown allowing user to ignore the field
+	* and enter no value
+	* values : TRUE , FALSE
+	*/
+	'#display_ignore_button' => FALSE,
+	/**
+	* When the slider does not have any value by enabling this option it won't show the
+	* the slider handle unless user clicks on the slider to select a value
+	* values : TRUE , FALSE
+	*/
+	'#hide_slider_handle_when_no_value' => TRUE
+  );
+  
+   $form['Default Value']['slider2'] = array(
+    '#type' => 'slider',
+    '#title' => 'Disable slider when default value is empty',
+	/**
+	* When field is not required, and display_inputs option is inactive
+	* a checkbox will be shown allowing user to ignore the field
+	* and enter no value
+	* values : TRUE , FALSE
+	*/
+	'#display_ignore_button' => TRUE
+  );
+  
+   $form['Default Value']['slider3'] = array(
+    '#type' => 'slider',
+    '#title' => 'Disable slider when default value is empty',
+	'#display_inputs' => FALSE,
+	/**
+	* When field is not required, and display_inputs option is inactive
+	* a checkbox will be shown allowing user to ignore the field
+	* and enter no value
+	* values : TRUE , FALSE
+	*/
+	'#display_ignore_button' => TRUE
+  );
 
 
   $form['element_status'] = array(

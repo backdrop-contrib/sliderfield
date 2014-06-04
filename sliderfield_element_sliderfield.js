@@ -59,10 +59,11 @@
           }
         });
         if (setting.display_ignore_button) {
-          $slider.find('.sliderfield-ignore').change(function() {
-            var $slider = $(this).parents('.sliderfield, .webform-sliderfield').find('.sliderfield');
+          $slider.parent().find('.sliderfield-ignore').change(function() {
+            var $slider = $(this).parent().parent().find('.sliderfield, .webform-sliderfield');
             var $slider_container = $slider.find('.sliderfield-container');
             $slider_id = $slider.attr('id');
+			console.log($slider_id);
             var setting = Drupal.settings['sliderfield_' + $slider_id];
             if ($(this).is(':checked')) {
               $slider.parents('.sliderfield').find('.sliderfield-value-field').val('');
@@ -127,12 +128,14 @@
 
 
 
-      // Bind left textfield changes
+      // Bind first textfield changes
       $('.sliderfield-value-field:not(.sliderfield-processed)', context)
           .addClass('sliderfield-processed')
           .keyup(function(e) {
             // Get container
             var $slider = $(this).parents('.sliderfield', context);
+            $slider_id = $slider.attr('id');
+            var setting = Drupal.settings['sliderfield_' + $slider_id];
 
             // Left input value
             var $value = $(this).val();
@@ -158,16 +161,22 @@
 
               // Move slider without toggling events
               $SliderField.slider({value: $value});
+
+              if (!setting.disabled && setting.display_ignore_button) {
+                $SliderField.slider( "enable" );
+              }
             }
           });
 
-      // Bind left textfield changes
+      // Bind second textfield changes
       $('.sliderfield-value2-field:not(.sliderfield-processed)', context)
           .addClass('sliderfield-processed')
           .keyup(function(e) {
 
             // Get container
             var $slider = $(this).parents('.sliderfield', context);
+            $slider_id = $slider.attr('id');
+            var setting = Drupal.settings['sliderfield_' + $slider_id];
 
             // Left input value
             var $value = $(this).val();
@@ -193,6 +202,10 @@
 
               // Move slider without toggling events
               $SliderField.slider('values', 1, $value);
+
+              if (!setting.disabled && setting.display_ignore_button) {
+                $SliderField.slider( "enable" );
+              }
             }
           });
     }
