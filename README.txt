@@ -68,23 +68,23 @@ Example:
     '#input_title' => t('Min'),
     '#input2_title' => t('Max'),
     /**
+    * Make the min value adjustable dynamically via another element
+    * Type of the value is CSS selector
+    * like .myfield, #element_id
+    */
+    '#adjust_field_min' => NULL,
+    /**
+    * Make the max value adjustable dynamically via another element
+    * Type of the value is CSS selector
+    * like .myfield, #element_id
+    */
+    '#adjust_field_max' => NULL,
+    /**
      * Boolean: When set to true, the handle will animate with the default duration.
      * String: The name of a speed, such as "fast" or "slow".
      * Number: The duration of the animation, in milliseconds.
      */
     '#animate' => 'fast',
-    /**
-    * Make the min value adjustable dynamically via another element
-    * Type of the value CSS selector
-    * like .myfield, #element_id
-    */
-    'adjust_field_min' => NULL,
-    /**
-    * Make the max value adjustable dynamically via another element
-    * Type of the value CSS selector
-    * like .myfield, #element_id
-    */
-    'adjust_field_max' => NULL,
     /**
      * Disables the slider if set to true.
      */
@@ -141,16 +141,17 @@ Example:
      */
     '#display_values' => FALSE,
     /**
-     * Format of the displaied values
+     * Format of the displayed values
      * The usage is mostly for showing $,% or other signs near the value
      */
     '#display_values_format' => '%{value}%',
     /**
-     * Display a hint/bubble near each slider handler showing the value of that handler
+     * Display a hint/bubble near each slider handle showing the value of that handle
      */
 	'#display_bubble' => FALSE,
 	/**
 	* Format of the displaied values in bubble/hint, The usage is mostly for showing $,% or other signs near the value. Use %{value}% as slider value
+	* For range slider it can have two values separated by || like "$%{value}%MIN||$%{value}%MAX"
 	*/
 	'#display_bubble_format' => '%{value}%',
     /**
@@ -164,14 +165,14 @@ Example:
     '#display_inside_fieldset' => FALSE,
     /**
      * Sliders with the same group will be linked
-     * The behavior of linked sliders depends on group_type parametr
+     * The behavior of linked sliders depends on group_type parameter
      * group name can only contain letters, numbers and underscore
      */
     '#group' => NULL,
     /**
      * same : All sliders in the same group will have the same value.
      * lock : All sliders in the same group will move with the exact same amount
-     * total : The total value of all sliders will be between min/max , incresing value of
+     * total : The total value of all sliders will be between min/max , increasing value of
      *         one slider decreases the rest of the sliders in the same group
      */
     '#group_type' => 'same',
@@ -187,7 +188,26 @@ Example:
      * for fields, since integer fields have range validation
      * values : TRUE , FALSE
      */
-    '#validate_range' => TRUE
+    '#validate_range' => TRUE,
+    /**
+     * In case there are other fields that should be sync dynamically when
+     * the slider changes
+     * value : .my_field_css_class
+     */
+    '#fields_to_sync_css_selector' => NULL,
+     /**
+      * When field is not required, and display_inputs option is inactive
+      * a checkbox will be shown allowing user to ignore the field
+      * and enter no value
+      * values : TRUE , FALSE
+      */
+     '#display_ignore_button' => FALSE,
+     /**
+      * When the slider does not have any value by enabling this option it won't show the
+      * the slider handle unless user clicks on the slider to select a value
+      * values : TRUE , FALSE
+      */
+     '#hide_slider_handle_when_no_value' => FALSE,
   );
 
 Contributors
