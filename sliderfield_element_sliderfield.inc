@@ -161,7 +161,7 @@ function _sliderfield_element_info_sliderfield() {
       * and enter no value
       * values : TRUE , FALSE
       */
-     '#display_ignore_button' => TRUE,
+     '#display_ignore_button' => FALSE,
      /**
       * When the slider does not have any value by enabling this option it won't show the
       * the slider handle unless user clicks on the slider to select a value
@@ -839,7 +839,7 @@ function _sliderfield_field_widget_form(&$form, &$form_state, $field, $instance,
 }
 
 
-function sliderfield_sliderfield_container_validate($element, &$form_state) {
+function sliderfield_sliderfield_container_validate($element, &$form_state) {dpm('test');
 
   #--(Begin)--> Set min/max for sliders with adjustable min/max
   if (isset($element['value']['container']['max_value'])) {
