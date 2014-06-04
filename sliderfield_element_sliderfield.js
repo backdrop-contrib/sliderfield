@@ -63,11 +63,10 @@
             var $slider = $(this).parent().parent().find('.sliderfield, .webform-sliderfield');
             var $slider_container = $slider.find('.sliderfield-container');
             $slider_id = $slider.attr('id');
-			console.log($slider_id);
             var setting = Drupal.settings['sliderfield_' + $slider_id];
             if ($(this).is(':checked')) {
-              $slider.parents('.sliderfield').find('.sliderfield-value-field').val('');
-              $slider.parents('.sliderfield').find('.sliderfield-value2-field').val('');
+              $(this).parent().parent().find('.sliderfield-value-field').val('');
+              $(this).parent().parent().find('.sliderfield-value2-field').val('');
               if (setting.fields_to_sync_css_selector) {
                 $(setting.fields_to_sync_css_selector).val('');
               }
