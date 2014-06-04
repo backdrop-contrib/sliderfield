@@ -106,8 +106,7 @@ function sliderfield_validate_integer($element, &$form_state) {
  * @param $form_state
  */
 function sliderfield_validate_number($element, &$form_state) {
-  //!ctype_digit($element['#value'])
-  if (!is_numeric($element['#value'])) {
+  if (!is_numeric($element['#value']) && !is_float($element['#value']) && !empty($element['#value'])) {
     form_error($element, t('The value should be a valid number'));
 	return FALSE;
   }

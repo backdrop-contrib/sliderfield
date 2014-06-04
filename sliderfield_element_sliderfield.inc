@@ -839,7 +839,7 @@ function _sliderfield_field_widget_form(&$form, &$form_state, $field, $instance,
 }
 
 
-function sliderfield_sliderfield_container_validate($element, &$form_state) {dpm('test');
+function sliderfield_sliderfield_container_validate($element, &$form_state) {
 
   #--(Begin)--> Set min/max for sliders with adjustable min/max
   if (isset($element['value']['container']['max_value'])) {
@@ -873,8 +873,9 @@ function sliderfield_sliderfield_container_validate($element, &$form_state) {dpm
   if (isset($element_value['value'])) {
     $element_value = $element_value['value'];
   }
+
   #--(Begin)--> Correct the value
-  form_set_value($element, $element_value, $form_state);
+  form_set_value($element, array('item' => $element_value), $form_state);
   #--(End)--> Correct the value
 }
 
