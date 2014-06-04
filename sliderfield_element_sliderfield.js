@@ -84,7 +84,17 @@
 
         // Adjust the range when the target field is changed
 		if (setting.adjust_field_max_css_selector || setting.adjust_field_min_css_selector) {
-          var adjust_field = $(setting.adjust_field_max_css_selector  + ',' + setting.adjust_field_min_css_selector);
+		  var adjust_field_css_selector = '';
+		  if (setting.adjust_field_max_css_selector) {
+		    adjust_field_css_selector = setting.adjust_field_max_css_selector;
+		  }
+		  if (setting.adjust_field_min_css_selector) {
+		    if (!adjust_field_css_selector) {
+			  adjust_field_css_selector += ',';
+			}
+		    adjust_field_css_selector += setting.adjust_field_min_css_selector;
+		  }
+          var adjust_field = $(adjust_field_css_selector);
           if (adjust_field.length) {
             adjust_field.bind('keyup', function(event) {
               var $target = $(event.target);
