@@ -29,7 +29,8 @@
           $slider.find('label', $slider.find('.sliderfield-value-field, .sliderfield-value2-field', context).parents()).hide();
           $slider.find('label', $slider.find('.webform-sliderfield .sliderfield-value-field,.webform-sliderfield .sliderfield-value2-field', context).parents()).show();
         }
-
+        if (setting.animate == '0') setting.animate = false;
+        if (setting.animate == '1') setting.animate = true;
         // Setup slider
         $(this).slider({
           value: $value,
