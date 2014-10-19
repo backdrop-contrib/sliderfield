@@ -31,10 +31,17 @@
         }
         if (setting.animate == '0') setting.animate = false;
         if (setting.animate == '1') setting.animate = true;
+        if (setting.no_value_first_select_slider_effect == '0') setting.no_value_first_select_slider_effect = false;
+        if (setting.no_value_first_select_slider_effect == '1') setting.no_value_first_select_slider_effect = true;
+
+        var animate = setting.animate;
+        if (setting.hide_slider_handle_when_no_value) {
+          animate = setting.no_value_first_select_slider_effect;
+        }
         // Setup slider
         $(this).slider({
           value: $value,
-          animate : setting.animate,
+          animate : animate,
           max : setting.max - 0,
           min : setting.min - 0,
           orientation : setting.orientation,
@@ -262,6 +269,7 @@
 
     $slider_id = $slider.attr('id');
     var setting = Drupal.settings['sliderfield_' + $slider_id];
+
     $slider.find('.ui-slider-handle').show();
     // Sync other sliders in the same group
     if (setting.group) {
@@ -290,6 +298,14 @@
     $slider.find('.sliderfield-value-field').trigger('change');
     if (setting.fields_to_sync_css_selector) {
         $(setting.fields_to_sync_css_selector).val(ui.value);
+    }
+
+    if (setting.no_value_text_auto_hide) {
+        $slider.find('.sliderfield-selectvalue-description').hide('slow');
+    }
+    if (setting.hide_slider_handle_when_no_value) {
+      var $slider_container = $slider.find('.sliderfield-container');
+      $slider_container.slider( "option", "animate", setting.animate );
     }
   }
 

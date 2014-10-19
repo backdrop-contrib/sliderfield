@@ -155,19 +155,38 @@ function _sliderfield_element_info_sliderfield() {
      * value : .my_field_css_class
      */
     '#fields_to_sync_css_selector' => NULL,
+    /**
+     * When field is not required, and display_inputs option is inactive
+     * a checkbox will be shown allowing user to ignore the field
+     * and enter no value
+     * values : TRUE , FALSE
+     */
+    '#display_ignore_button' => FALSE,
+    /**
+     * When the slider does not have any value by enabling this option it won't show the
+     * the slider handle unless user clicks on the slider to select a value
+     * values : TRUE , FALSE
+     */
+    '#hide_slider_handle_when_no_value' => FALSE,
      /**
-      * When field is not required, and display_inputs option is inactive
-      * a checkbox will be shown allowing user to ignore the field
-      * and enter no value
+      * When hide_slider_handle_when_no_value is enabled, hide the no_value_text text
+      * When user clicks on the slider for the first time
       * values : TRUE , FALSE
       */
-     '#display_ignore_button' => FALSE,
+    '#no_value_text_auto_hide' => FALSE,
      /**
-      * When the slider does not have any value by enabling this option it won't show the
-      * the slider handle unless user clicks on the slider to select a value
-      * values : TRUE , FALSE
+      * When hide_slider_handle_when_no_value is enabled, hide the no_value_text text
+      * When user clicks on the slider for the first time
+      * values : TRUE , FALSE, slow, fast
       */
-     '#hide_slider_handle_when_no_value' => FALSE,
+     '#no_value_first_select_slider_effect' => TRUE,
+     /**
+      * The text that will be displayed when hide_slider_handle_when_no_value
+      * is enabled
+      * values : STRING
+      */
+     '#no_value_text' => 'Please click on any part of the slider to select a value.',
+
   );
   $types['jslider'] = $types['slider'];
   return $types;
@@ -327,10 +346,10 @@ function _sliderfield_element_sliderfield_structure($element, &$form_state) {
       $style = "height : {$element['#slider_length']}";
     }
   }
-  if ($element['#hide_slider_handle_when_no_value']) {
+  if ($element['#hide_slider_handle_when_no_value'] && !empty($element['#no_value_text'])) {
     $element['note'] = array(
       '#type' => 'markup',
-      '#markup' => '<div class="sliderfield-selectvalue-description">' . t('Please click on any part of the slider to select a value') . '</div>'
+      '#markup' => '<div class="sliderfield-selectvalue-description">' . t($element['#no_value_text']) . '</div>'
     );
   }
 
@@ -370,7 +389,10 @@ function _sliderfield_element_sliderfield_structure($element, &$form_state) {
               'group_master' => $element['#group_master'],
               'fields_to_sync_css_selector' => $element['#fields_to_sync_css_selector'],
               'display_ignore_button' => $element['#display_ignore_button'],
-              'hide_slider_handle_when_no_value' => $element['#hide_slider_handle_when_no_value']
+              'hide_slider_handle_when_no_value' => $element['#hide_slider_handle_when_no_value'],
+              'no_value_text_auto_hide' => $element['#no_value_text_auto_hide'],
+              'no_value_first_select_slider_effect' => $element['#no_value_first_select_slider_effect'],
+              'no_value_text' => $element['#no_value_text']
             )
           ),
           'type' => 'setting',
@@ -584,6 +606,24 @@ function _sliderfield_field_widget_info_sliderfield() {
            * the slider handle unless user clicks on the slider to select a value
            */
           'hide_slider_handle_when_no_value' => FALSE,
+          /**
+           * When hide_slider_handle_when_no_value is enabled, hide the no_value_text text
+           * When user clicks on the slider for the first time
+           * values : TRUE , FALSE
+           */
+          'no_value_text_auto_hide' => FALSE,
+          /**
+           * When hide_slider_handle_when_no_value is enabled, hide the no_value_text text
+           * When user clicks on the slider for the first time
+           * values : TRUE , FALSE, slow, fast
+           */
+          'no_value_first_select_slider_effect' => TRUE,
+          /**
+           * The text that will be displayed when hide_slider_handle_when_no_value
+           * is enabled
+           * values : STRING
+           */
+          'no_value_text' => 'Please click on any part of the slider to select a value.',
         )
       ),
     ),
@@ -759,6 +799,31 @@ function _sliderfield_field_widget_settings_form_sliderfield($field = NULL, $ins
       '#description' => t('When the slider does not have any value by enabling this option it won\'t show the the slider handle unless user clicks on the slider to select a value.'),
       '#default_value' => $settings['hide_slider_handle_when_no_value']
     );
+    $form['sliderfield_settings']['no_value_first_select_slider_effect'] = array(
+      '#type' => 'select',
+      '#title' => t('Slider handler appearance effect'),
+      '#options' => array(
+        FALSE => t('Disable'),
+        TRUE => t('Default'),
+        'fast' => t('Fast'),
+        'slow' => t('Slow')
+      ),
+      '#description' => t('When slider handler is hidden due to lack of default value, display different effect for displaying the slider.'),
+      '#default_value' => (isset($settings['no_value_first_select_slider_effect']))?$settings['no_value_first_select_slider_effect']:TRUE
+    );
+    $form['sliderfield_settings']['no_value_text'] = array(
+      '#type' => 'textfield',
+      '#size' => 50,
+      '#title' => t('Display a text when no default value is provided'),
+      '#description' => t('When no default value is provided, display a guiding message.'),
+      '#default_value' => (isset($settings['no_value_text']))?$settings['no_value_text']:'Please click on any part of the slider to select a value.'
+    );
+    $form['sliderfield_settings']['no_value_text_auto_hide'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Hide no value text when a value is selected'),
+      '#description' => t('When any value is entered/selected , automatically hides no value text.'),
+      '#default_value' => (isset($settings['no_value_text_auto_hide']))?$settings['no_value_text_auto_hide']:FALSE
+    );
   }
 
   return $form;
@@ -831,6 +896,9 @@ function _sliderfield_field_widget_form(&$form, &$form_state, $field, $instance,
         '#display_bubble' => $settings['display_bubble'],
         '#display_ignore_button' => $settings['display_ignore_button'],
         '#hide_slider_handle_when_no_value' => $settings['hide_slider_handle_when_no_value'],
+        '#no_value_first_select_slider_effect' => $settings['no_value_first_select_slider_effect'],
+        '#no_value_text' => $settings['no_value_text'],
+        '#no_value_text_auto_hide' => $settings['no_value_text_auto_hide'],
         '#fields_to_sync_css_selector' => @$settings['fields_to_sync_css_selector']
       );
       break;
