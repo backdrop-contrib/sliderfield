@@ -281,6 +281,19 @@ function sliderfield_form_webform_component_edit_form_alter(&$form, &$form_state
   }
 }
 
+function sliderfield_module_implements_alter(&$implementations, $hook) {
+  //For compatibility with webform_localization module
+  if ($hook == 'webform_component_render_alter') {
+    // Move my_module_rdf_mapping() to the end of the list. module_implements()
+    // iterates through $implementations with a foreach loop which PHP iterates
+    // in the order that the items were added, so to move an item to the end of
+    // the array, we remove it and then add it.
+    $group = $implementations['sliderfield'];
+    unset($implementations['sliderfield']);
+    $implementations['sliderfield'] = $group;
+  }
+}
+
 /**
  * Implements webform_component_render_alter().
  */
@@ -302,9 +315,9 @@ function sliderfield_webform_component_render_alter(&$element, $component) {
         'widget' => $default
       );
 
-      $instance['label'] = $component['name'];
+      $instance['label'] = $element['#title'];
       $instance['required'] = $component['required'];
-      $instance['description'] = $component['extra']['description'];
+      $instance['description'] = $element['#description'];
       $instance['settings']['min'] = $component['extra']['min'];
       $instance['settings']['max'] = $component['extra']['max'];
 
