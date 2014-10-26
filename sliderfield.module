@@ -329,6 +329,7 @@ function sliderfield_webform_component_render_alter(&$element, $component) {
 
       $component['extra']['type'] = 'textfield';
       module_load_include('inc', 'webform', 'components/number');
+      $element_original = $element;
       $element =_webform_render_number($component, $component['value']);
       $element['#disabled'] = $component['extra']['disabled'];
       $element['#theme_wrappers'] = array('sliderfield_webform_element');
@@ -338,6 +339,7 @@ function sliderfield_webform_component_render_alter(&$element, $component) {
       $element['#type'] = 'hidden';
       $element['#wrapper_attributes']['class'][] = 'sliderfield';
       $element['#wrapper_attributes']['class'][] = 'webform-sliderfield';
+      $element['#webform_component'] = $element_original['#webform_component'];
 
       $form = array();
       $form_state = array();
