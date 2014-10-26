@@ -346,6 +346,14 @@ function sliderfield_webform_component_render_alter(&$element, $component) {
       $element_new = _sliderfield_field_widget_form($form, $form_state, NULL, $instance, NULL, $items, $delta, $element);
       $element['value_field'] = $element_new['value'];
       $element['value_field']['#parents'] = array('__sliderfield', 'submitted', $component['form_key']);
+
+      if ($element_original['#title_display'] == 'inline') {
+        $element['value_field']['#title_display'] = 'none';//$element_original['#title_display'];
+        $element['#title'] = $element_original['#title'];
+        $element['#title_display'] = $element_original['#title_display'];
+      } else {
+        $element['value_field']['#title_display'] = $element_original['#title_display'];
+      }
     }
   }
 }
