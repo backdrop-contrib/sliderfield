@@ -335,6 +335,9 @@ function sliderfield_webform_component_render_alter(&$element, $component) {
       $element['#theme_wrappers'] = array('sliderfield_webform_element');
       $element['#attributes']['class'][] = $special_css_class;
       $element['#title_display'] = 'none';
+      if (isset($element_original['#default_value'])) {
+        $element['#default_value'] = $element_original['#default_value'];
+      }
       $element['#description'] = NULL;
       $element['#type'] = 'hidden';
       $element['#wrapper_attributes']['class'][] = 'sliderfield';
@@ -346,6 +349,9 @@ function sliderfield_webform_component_render_alter(&$element, $component) {
       $element_new = _sliderfield_field_widget_form($form, $form_state, NULL, $instance, NULL, $items, $delta, $element);
       $element['value_field'] = $element_new['value'];
       $element['value_field']['#parents'] = array('__sliderfield', 'submitted', $component['form_key']);
+      if (isset($element_new['#default_value'])) {
+        $element['value_field']['#default_value'] = $element_new['#default_value'];
+      }
 
       if ($element_original['#title_display'] == 'inline') {
         $element['value_field']['#title_display'] = 'none';//$element_original['#title_display'];
