@@ -138,7 +138,7 @@ function sliderfield_example_custom_form($form, &$form_state) {
      */
     '#display_values' => FALSE,
     /**
-     * Format of the displaied values
+     * Format of the displayed values
      * The usage is mostly for showing $,% or other signs near the value
      */
     '#display_values_format' => '%{value}%',

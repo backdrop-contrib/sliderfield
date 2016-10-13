@@ -154,7 +154,7 @@ Example:
      */
 	'#display_bubble' => FALSE,
 	/**
-	* Format of the displaied values in bubble/hint, The usage is mostly for showing $,% or other signs near the value. Use %{value}% as slider value
+	* Format of the displayed values in bubble/hint, The usage is mostly for showing $,% or other signs near the value. Use %{value}% as slider value
 	* For range slider it can have two values separated by || like "$%{value}%MIN||$%{value}%MAX"
 	*/
 	'#display_bubble_format' => '%{value}%',

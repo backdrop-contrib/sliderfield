@@ -110,7 +110,7 @@ function _sliderfield_element_info_sliderfield() {
      */
 	'#display_bubble' => FALSE,
 	/**
-	* Format of the displaied values in bubble/hint, The usage is mostly for showing $,% or other signs near the value. Use %{value}% as slider value
+	* Format of the displayed values in bubble/hint, The usage is mostly for showing $,% or other signs near the value. Use %{value}% as slider value
 	* For range slider it can have two values separated by || like "$%{value}%MIN||$%{value}%MAX"
 	*/
 	'#display_bubble_format' => '%{value}%',
@@ -564,7 +564,7 @@ function _sliderfield_field_widget_info_sliderfield() {
            */
           'display_values' => TRUE,
           /**
-           * Format of the displaied values
+           * Format of the displayed values
            * The usage is mostly for showing $,% or other signs near the value
            */
           'display_values_format' => '%{value}%',
@@ -573,7 +573,7 @@ function _sliderfield_field_widget_info_sliderfield() {
            */
           'display_bubble' => FALSE,
           /**
-           * Format of the displaied value in bubble/hint
+           * Format of the displayed value in bubble/hint
            * The usage is mostly for showing $,% or other signs near the value
 		   * For range slider it can have two values separated by || like "$%{value}%MIN||$%{value}%MAX"
            */
@@ -746,7 +746,7 @@ function _sliderfield_field_widget_settings_form_sliderfield($field = NULL, $ins
       '#type' => 'textfield',
       '#title' => t('Display Values Format'),
       '#size' => 15,
-      '#description' => t('Format of the displaied values, The usage is mostly for showing $,% or other signs near the value. Use %{value}% as slider value'),
+      '#description' => t('Format of the displayed values, The usage is mostly for showing $,% or other signs near the value. Use %{value}% as slider value'),
       '#default_value' => $settings['display_values_format']
     );
 	if (!isset($settings['display_bubble'])) $settings['display_bubble'] = FALSE;
@@ -761,7 +761,7 @@ function _sliderfield_field_widget_settings_form_sliderfield($field = NULL, $ins
       '#type' => 'textfield',
 	  '#size' => 15,
       '#title' => t('Display bubble/hint format'),
-      '#description' => t('Format of the displaied values in bubble/hint, The usage is mostly for showing $,% or other signs near the value. Use %{value}% as slider value. For range slider it can have two values separated by || like "$%{value}%MIN||$%{value}%MAX"'),
+      '#description' => t('Format of the displayed values in bubble/hint, The usage is mostly for showing $,% or other signs near the value. Use %{value}% as slider value. For range slider it can have two values separated by || like "$%{value}%MIN||$%{value}%MAX"'),
       '#default_value' => $settings['display_bubble_format']
     );
     $form['sliderfield_settings']['slider_length'] = array(
