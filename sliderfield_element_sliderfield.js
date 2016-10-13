@@ -273,8 +273,8 @@
     $slider.find('.ui-slider-handle').show();
     // Sync other sliders in the same group
     if (setting.group) {
-      var $group_sliders = $('.sliderfield:[id!="' + $slider_id + '"].sliderfield-group-' + setting.group);
-      if ($('.sliderfield:[id!="' + $slider_id + '"].sliderfield-group-master.sliderfield-group-' + setting.group).length < 1) {
+      var $group_sliders = $('.sliderfield[id!="' + $slider_id + '"].sliderfield-group-' + setting.group);
+      if ($('.sliderfield[id!="' + $slider_id + '"].sliderfield-group-master.sliderfield-group-' + setting.group).length < 1) {
         var $group_slider;
         var $group_slider_settings;
         var $group_ui;
@@ -337,8 +337,8 @@
       var $value_diff_orig = ui.value - setting.value;
       //var value_diff = ui.value - setting.current_value;
 
-      var $group_sliders = $('.sliderfield:[id!="' + $slider_id + '"].sliderfield-group-' + setting.group);
-      if ($('.sliderfield:[id!="' + $slider_id + '"].sliderfield-group-master.sliderfield-group-' + setting.group).length < 1) {
+      var $group_sliders = $('.sliderfield[id!="' + $slider_id + '"].sliderfield-group-' + setting.group);
+      if ($('.sliderfield[id!="' + $slider_id + '"].sliderfield-group-master.sliderfield-group-' + setting.group).length < 1) {
         var $group_slider;
         var $group_slider_settings;
         var $group_ui;
