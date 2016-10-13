@@ -164,7 +164,7 @@ function _sliderfield_element_info_sliderfield() {
     '#display_ignore_button' => FALSE,
     /**
      * When the slider does not have any value by enabling this option it won't show the
-     * the slider handle unless user clicks on the slider to select a value
+     * slider handle unless user clicks on the slider to select a value
      * values : TRUE , FALSE
      */
     '#hide_slider_handle_when_no_value' => FALSE,
@@ -603,7 +603,7 @@ function _sliderfield_field_widget_info_sliderfield() {
           'display_ignore_button' => TRUE,
           /**
            * When the slider does not have any value by enabling this option it won't show the
-           * the slider handle unless user clicks on the slider to select a value
+           * slider handle unless user clicks on the slider to select a value
            */
           'hide_slider_handle_when_no_value' => FALSE,
           /**
@@ -796,7 +796,7 @@ function _sliderfield_field_widget_settings_form_sliderfield($field = NULL, $ins
     $form['sliderfield_settings']['hide_slider_handle_when_no_value'] = array(
       '#type' => 'checkbox',
       '#title' => t('Hide slider handle when there is no value'),
-      '#description' => t('When the slider does not have any value by enabling this option it won\'t show the the slider handle unless user clicks on the slider to select a value.'),
+      '#description' => t('When the slider does not have any value by enabling this option it won\'t show the slider handle unless user clicks on the slider to select a value.'),
       '#default_value' => $settings['hide_slider_handle_when_no_value']
     );
     $form['sliderfield_settings']['no_value_first_select_slider_effect'] = array(
