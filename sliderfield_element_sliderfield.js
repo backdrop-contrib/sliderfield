@@ -298,6 +298,7 @@
     $slider.find('.sliderfield-value-field').trigger('change');
     if (setting.fields_to_sync_css_selector) {
         $(setting.fields_to_sync_css_selector).val(ui.value);
+        $(setting.fields_to_sync_css_selector).trigger('keyup');
     }
 
     if (setting.no_value_text_auto_hide) {
