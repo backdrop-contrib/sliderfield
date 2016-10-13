@@ -45,6 +45,11 @@ jslider_field module users can also easily migrate :
 - Download and install sliderfield version 1
 - Download sliderfield version 2 and call upgrade.php
 
+FAQ
+============
+How to enable touch support for mobile devices ?
+It's out of the scope of this module but you may read this issue for how to do it https://www.drupal.org/node/2396457
+
 DOCUMENTATION
 ============
 
@@ -218,5 +223,5 @@ Contributors
 ============
 - Version 1 : Jonathan Rowny (jrowny), www.jonathanrowny.com
 - Version 1 : Tom Kirkpatrick (mrfelton), www.systemseed.com
-- Version 2 Transfer Slider code from "jSlider Form API" : Roman Grachev (http://graker.ru/) , Maslouski Yauheni (http://drupalace.ru/)
+- Version 2 : Transfer Slider code from "jSlider Form API" : Roman Grachev (http://graker.ru/) , Maslouski Yauheni (http://drupalace.ru/)
 - Version 2 : Sina Salek (http://sina.salek.ws) Merged in from jslider_field module
