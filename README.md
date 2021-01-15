@@ -1,66 +1,58 @@
-DESCRIPTION
-============
+# Slider Field
 
 Integrates jQuery UI Slider with Backdrop.
 It provides one form element and one widget
 All slider parameters are configurable either as parameters for form element or in widget settings form
 
-FEATURES
-============
+## Features
 
-- A widget that adds slider to numeric fields
+- A widget that adds slider to numeric fields.
 - Group sliding : by using it one can connect several sliders, the result is
-  by changing one slider the others sliders linked to it will also change. There are several group types that 
-  indicate how the other sliders change. Look for "group" 
-- Form API element for using slider in custom forms
-- Slider color sets
-- Flexible Ajax support
-- Supports most of jquery slider parameters like orientation, disable/enable , animation , step, etc for both UI and Form Element
-- Setting default length for slider
-- Adjustable slider widget that allows changing slider range dynamically
-- Supports all numeric field types
-- Supports integer , float and decimal numbers as step
-- Can display bubble/hint near slider handles
-- Compatible with editablefields module
-- Fields using slider field can have empty value, proper UI is implemented to handle it
-- Full Webform integration
-- Compatibility with form api #states
-- Customizable through #attributes and proper css wrappers
+  by changing one slider the others sliders linked to it will also change.
+  There are several group types that indicate how the other sliders change.
+  Look for "group".
+- Form API element for using slider in custom forms.
+- Slider color sets.
+- Flexible Ajax support.
+- Supports most of jquery slider parameters like orientation, disable/enable,
+  animation, step, etc for both UI and Form Element.
+- Setting default length for slider.
+- Adjustable slider widget that allows changing slider range dynamically.
+- Supports all numeric field types.
+- Supports integer , float and decimal numbers as step.
+- Can display bubble/hint near slider handles.
+- Compatible with editablefields module.
+- Fields using slider field can have empty value, proper UI is implemented to
+  handle it.
+- Full Webform integration.
+- Compatibility with form api #states.
+- Customizable through #attributes and proper css wrappers.
 
-Notice : It's not yet possible to create two handled sliders via Field UI
+Notice : It's not yet possible to create two handled sliders via Field UI.
 
-INSTALLATION
-============
+## Installation
 
 Enable the module at Administer >> Modules.
 
-UPGRADE
-============
-All the features of SliderField v1 is supported, simple use upgrade.php
-and apply the pending updates
 
-MIGRADE
-============
-jslider_field module users can also easily migrate :
-- Download and install sliderfield version 1
-- Download sliderfield version 2 and call upgrade.php
+## FAQ
 
-FAQ
-============
-How to enable touch support for mobile devices ?
-It's out of the scope of this module but you may read this issue for how to do it https://www.drupal.org/node/2396457
+How to enable touch support for mobile devices?
 
-DOCUMENTATION
-============
+It's out of the scope of this module but you may read this issue for how to do
+it <https://www.drupal.org/node/2396457>.
 
-For Field Widget you can use "Slider Field" as widget for any numeric field type
+## Implement
 
-You may use Forms API element type slider or transfer_slider
+For Field Widget you can use "Slider Field" as widget for any numeric field type.
 
-For demonstration you can can enable sliderfield_example module and visit examples/sliderfield
+You may use Forms API element type slider or transfer_slider.
+
+For demonstration you can can enable sliderfield_example module and visit examples/sliderfield.
 
 Example:
 
+```php
   $form['slider'] = array(
     '#type' => 'transfer_slider',
     '#title' => t('Slider test'),
@@ -157,12 +149,12 @@ Example:
     /**
      * Display a hint/bubble near each slider handle showing the value of that handle
      */
-	'#display_bubble' => FALSE,
-	/**
-	* Format of the displayed values in bubble/hint, The usage is mostly for showing $,% or other signs near the value. Use %{value}% as slider value
-	* For range slider it can have two values separated by || like "$%{value}%MIN||$%{value}%MAX"
-	*/
-	'#display_bubble_format' => '%{value}%',
+  '#display_bubble' => FALSE,
+  /**
+  * Format of the displayed values in bubble/hint, The usage is mostly for showing $,% or other signs near the value. Use %{value}% as slider value
+  * For range slider it can have two values separated by || like "$%{value}%MIN||$%{value}%MAX"
+  */
+  '#display_bubble_format' => '%{value}%',
     /**
      * Acceptable types are the same as css with and height and it will be used as width
      * or height depending on #orientation
@@ -218,10 +210,25 @@ Example:
       */
      '#hide_slider_handle_when_no_value' => FALSE,
   );
+```
 
-Contributors
-============
-- Version 1 : Jonathan Rowny (jrowny), www.jonathanrowny.com
-- Version 1 : Tom Kirkpatrick (mrfelton), www.systemseed.com
-- Version 2 : Transfer Slider code from "jSlider Form API" : Roman Grachev (http://graker.ru/) , Maslouski Yauheni (http://drupalace.ru/)
-- Version 2 : Sina Salek (http://sina.salek.ws) Merged in from jslider_field module
+## Issues
+
+Bugs and Feature requests should be reported in the Issue Queue:
+<https://github.com/backdrop-contrib/sliderfield/issues>
+
+## Current Maintainers
+
+- Herb v/d Dool <https://github.com/herbdool>
+- Seeking more maintainers.
+
+## Credits
+
+Ported to Backdrop by Herb v/d Dool <https://github.com/herbdool>. Originally
+developed for Drupal by [Sina Salek](https://www.drupal.org/u/sinasalek),
+[mrfelton](https://www.drupal.org/u/mrfelton), [jrowny](https://www.drupal.org/u/jrowny).
+
+## License
+
+This project is GPL v2 software. See the LICENSE.txt file in this directory for
+complete text.

@@ -6,7 +6,7 @@
 function _sliderfield_theme_sliderfield() {
   $data['sliderfield_sliderfield'] = array(
     'render element' => 'element',
-    'file' => 'sliderfield_element_sliderfield.inc',
+    'file' => 'includes/sliderfield_element_sliderfield.inc',
   );
   return $data;
 }
