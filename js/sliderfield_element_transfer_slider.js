@@ -1,9 +1,9 @@
-(function($, Drupal) {
+(function($, Backdrop) {
 
 /**
  * This script adds jQuery slider functionality to transform_slider form element
  */
-Drupal.behaviors.jSliderFormAPI = {
+Backdrop.behaviors.jSliderFormAPI = {
   attach: function (context, settings) {
     // Create sliders
     $('.transfer-slider-container:not(.transferSlider-processed)', context).each(function () {
@@ -100,4 +100,4 @@ var jsliderSlideProcess = function(event, ui) {
   $slider.find('.transfer-slider-right-field').val(max - ui.value);
 }
 
-})(jQuery, Drupal);
+})(jQuery, Backdrop);

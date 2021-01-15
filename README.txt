@@ -1,7 +1,7 @@
 DESCRIPTION
 ============
 
-Integrates jQuery UI Slider with Drupal.
+Integrates jQuery UI Slider with Backdrop.
 It provides one form element and one widget
 All slider parameters are configurable either as parameters for form element or in widget settings form
 

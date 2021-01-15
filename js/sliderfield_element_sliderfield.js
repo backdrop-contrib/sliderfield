@@ -1,8 +1,8 @@
-(function($, Drupal) {
+(function($, Backdrop) {
   /**
    * This script adds jQuery slider functionality to transform_slider form element
    */
-  Drupal.behaviors.SliderFieldSliderField = {
+  Backdrop.behaviors.SliderFieldSliderField = {
     attach: function (context, settings) {
 
       // Create sliders
@@ -71,7 +71,7 @@
             var $slider = $(this).parent().parent().find('.sliderfield, .webform-sliderfield');
             var $slider_container = $slider.find('.sliderfield-container');
             $slider_id = $slider.attr('id');
-            var setting = Drupal.settings['sliderfield_' + $slider_id];
+            var setting = Backdrop.settings['sliderfield_' + $slider_id];
             if ($(this).is(':checked')) {
               $(this).parent().parent().find('.sliderfield-value-field').val('');
               $(this).parent().parent().find('.sliderfield-value2-field').val('');
@@ -142,7 +142,7 @@
             // Get container
             var $slider = $(this).parents('.sliderfield', context);
             $slider_id = $slider.attr('id');
-            var setting = Drupal.settings['sliderfield_' + $slider_id];
+            var setting = Backdrop.settings['sliderfield_' + $slider_id];
 
             // Left input value
             var $value = $(this).val();
@@ -183,7 +183,7 @@
             // Get container
             var $slider = $(this).parents('.sliderfield', context);
             $slider_id = $slider.attr('id');
-            var setting = Drupal.settings['sliderfield_' + $slider_id];
+            var setting = Backdrop.settings['sliderfield_' + $slider_id];
 
             // Left input value
             var $value = $(this).val();
@@ -221,7 +221,7 @@
   var sliderfieldsSlideStop = function($slider, ui) {
     var $slider = $(this).parents('.sliderfield');
     $slider_id = $slider.attr('id');
-    var setting = Drupal.settings['sliderfield_' + $slider_id];
+    var setting = Backdrop.settings['sliderfield_' + $slider_id];
     // Execute a change on the value text areas to initiate any ajax calls.
     $value = $slider.find('.sliderfield-value-field').change();
     $value2 = $slider.find('.sliderfield-value2-field').change();
@@ -234,7 +234,7 @@
   // Slider update related fields
   var sliderfieldsSlideUpdateFields = function($slider, ui) {
     $slider_id = $slider.attr('id');
-    var setting = Drupal.settings['sliderfield_' + $slider_id];
+    var setting = Backdrop.settings['sliderfield_' + $slider_id];
 
     var $values = [];
     if ($slider.find('.sliderfield-value2-field').length > 0) {
@@ -268,7 +268,7 @@
     sliderfieldsSlideUpdateFields($slider, ui);
 
     $slider_id = $slider.attr('id');
-    var setting = Drupal.settings['sliderfield_' + $slider_id];
+    var setting = Backdrop.settings['sliderfield_' + $slider_id];
 
     $slider.find('.ui-slider-handle').show();
     // Sync other sliders in the same group
@@ -281,7 +281,7 @@
         for(var i = 0; i < $group_sliders.length; i++) {
           $group_slider = $($group_sliders[i]);
           $group_ui = $group_slider.find('.sliderfield-container');
-          $group_slider_settings = Drupal.settings['sliderfield_' + $group_slider.attr('id')];
+          $group_slider_settings = Backdrop.settings['sliderfield_' + $group_slider.attr('id')];
 
           sliderfieldsSlideUpdateFields($group_slider, {value:$group_ui.slider('value'), values: $group_ui.slider('values')});
 
@@ -294,7 +294,7 @@
       setting.value = ui.value;
     }
 
-    //Manually trigger element change event for compatibility with Drupal's ajax system
+    //Manually trigger element change event for compatibility with Backdrop's ajax system
     $slider.find('.sliderfield-value-field').trigger('change');
     if (setting.fields_to_sync_css_selector) {
         $(setting.fields_to_sync_css_selector).val(ui.value);
@@ -313,7 +313,7 @@
   var sliderfieldsSlideCreate = function(event, ui) {
     var $slider = $(this).parents('.sliderfield');
     $slider_id = $slider.attr('id');
-    var setting = Drupal.settings['sliderfield_' + $slider_id];
+    var setting = Backdrop.settings['sliderfield_' + $slider_id];
 
     // Add bubble to each handler
     if (setting.display_bubble) {
@@ -331,7 +331,7 @@
     sliderfieldsSlideUpdateFields($slider, ui);
 
     $slider_id = $slider.attr('id');
-    var setting = Drupal.settings['sliderfield_' + $slider_id];
+    var setting = Backdrop.settings['sliderfield_' + $slider_id];
 
     // Sync other sliders in the same group
     if (setting.group) {
@@ -350,7 +350,7 @@
 
         for(var i = 0; i < $group_sliders.length; i++) {
           $group_slider = $($group_sliders[i]);
-          $group_slider_settings = Drupal.settings['sliderfield_' + $group_slider.attr('id')];
+          $group_slider_settings = Backdrop.settings['sliderfield_' + $group_slider.attr('id')];
           $items[i] = {value: $group_slider_settings.value, index: i};
         }
         var sortFunc = function(data_A, data_B)
@@ -363,7 +363,7 @@
           var n = $items[i].index;
           $group_slider = $($group_sliders[n]);
           $group_ui = $group_slider.find('.sliderfield-container');
-          $group_slider_settings = Drupal.settings['sliderfield_' + $group_slider.attr('id')];
+          $group_slider_settings = Backdrop.settings['sliderfield_' + $group_slider.attr('id')];
 
           $group_ui.slider({slide: function() {}, change: function() {}});
 
@@ -393,4 +393,4 @@
     }
   }
 
-})(jQuery, Drupal);
+})(jQuery, Backdrop);

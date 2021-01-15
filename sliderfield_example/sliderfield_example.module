@@ -23,7 +23,7 @@ function sliderfield_example_menu() {
   );
   $items['examples/sliderfield/custom_form'] = array(
     'title' => 'Custom Form Sample',
-    'page callback' => 'drupal_get_form',
+    'page callback' => 'backdrop_get_form',
     'page arguments' => array('sliderfield_example_custom_form'),
     'access callback' => TRUE,
     'description' => 'Usage example for custom form',
@@ -751,6 +751,6 @@ function sliderfield_example_custom_form_submit($form, &$form_state) {
       $values = $form_state['storage']['all']['values'];
     }
   }
-  drupal_set_message(t('The form has been submitted , submitted values are !s', array('!s' => '<pre>' . print_r($form_state['values'], true) . '</pre>')));
+  backdrop_set_message(t('The form has been submitted , submitted values are !s', array('!s' => '<pre>' . print_r($form_state['values'], true) . '</pre>')));
   return '';
 }

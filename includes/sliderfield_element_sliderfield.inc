@@ -202,8 +202,8 @@ function _sliderfield_element_sliderfield_structure($element, &$form_state) {
   $values = NULL;
   $input = NULL;
   if (isset($form_state['values'])) {
-    $values = drupal_array_get_nested_value($form_state['values'], $element['#parents']);
-    $input = drupal_array_get_nested_value($form_state['input'], $element['#parents']);
+    $values = backdrop_array_get_nested_value($form_state['values'], $element['#parents']);
+    $input = backdrop_array_get_nested_value($form_state['input'], $element['#parents']);
   }
   */
 
@@ -355,7 +355,7 @@ function _sliderfield_element_sliderfield_structure($element, &$form_state) {
 
  $_attributes_new = array('class' => array('sliderfield-container', $element['#slider_style']), 'style' => $style);
  if (isset($element['#attributes']) && is_array($element['#attributes'])) {
-   $_attributes_new = drupal_array_merge_deep($_attributes_new, $element['#attributes']);
+   $_attributes_new = backdrop_array_merge_deep($_attributes_new, $element['#attributes']);
  }
  // Create markup for slider container
   $element['container'] = array(
@@ -366,7 +366,7 @@ function _sliderfield_element_sliderfield_structure($element, &$form_state) {
         array('system', 'ui.slider')
       ),
       'js' => array(
-        drupal_get_path('module', 'sliderfield') . '/js/sliderfield_element_sliderfield.js',
+        backdrop_get_path('module', 'sliderfield') . '/js/sliderfield_element_sliderfield.js',
         array(
           'data' => array(
             'sliderfield_' . $element['#id'] => array(
@@ -400,7 +400,7 @@ function _sliderfield_element_sliderfield_structure($element, &$form_state) {
       ),
       'css' => array(
         array(
-          'data' => drupal_get_path('module', 'sliderfield') . '/css/sliderfield_element_sliderfield.css',
+          'data' => backdrop_get_path('module', 'sliderfield') . '/css/sliderfield_element_sliderfield.css',
           'type' => 'file',
           //'group' => CSS_SYSTEM,
           'weight' => 2000,
@@ -497,7 +497,7 @@ function theme_sliderfield_sliderfield($vars) {
     $element = _sliderfield_element_sliderfield_structure($variables['element']);
     $html = '';
     if (isset($element['slider'])) {
-      $html .= drupal_render($element['slider']);
+      $html .= backdrop_render($element['slider']);
     }
 
     return $html;
@@ -877,8 +877,8 @@ function _sliderfield_field_widget_form(&$form, &$form_state, $field, $instance,
         '#required' => $instance['required'],
         '#input2_title' => t('Max'),
         '#animate' => $settings['animate'],
-        '#adjust_field_min' => isset($settings['adjust_field_min'])? '.' . drupal_clean_css_identifier('sliderfield-field-adjust-' . $settings['adjust_field_min']) : '',
-        '#adjust_field_max' => isset($settings['adjust_field_max'])? '.' . drupal_clean_css_identifier('sliderfield-field-adjust-' . $settings['adjust_field_max']) : '',
+        '#adjust_field_min' => isset($settings['adjust_field_min'])? '.' . backdrop_clean_css_identifier('sliderfield-field-adjust-' . $settings['adjust_field_min']) : '',
+        '#adjust_field_max' => isset($settings['adjust_field_max'])? '.' . backdrop_clean_css_identifier('sliderfield-field-adjust-' . $settings['adjust_field_max']) : '',
         '#disabled' => (isset($element['#disabled']))?$element['#disabled']:FALSE,
         '#max' => $instance['settings']['max'],
         '#min' => $instance['settings']['min'],
@@ -1030,6 +1030,6 @@ function _sliderfield_sliderfield_widget_field_widget_form_alter(&$element, &$fo
 function _sliderfield_sliderfield_widget_adjust_process($element, &$form_state, $form) {
   $instance = field_widget_instance($element, $form_state);
   $widget_settings = $instance['widget']['settings'];
-  $element['#attributes']['class'][] = 'sliderfield-field-adjust-'.drupal_clean_css_identifier($element['#field_name']);
+  $element['#attributes']['class'][] = 'sliderfield-field-adjust-'.backdrop_clean_css_identifier($element['#field_name']);
   return $element;
 }

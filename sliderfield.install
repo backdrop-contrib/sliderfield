@@ -56,6 +56,6 @@ function sliderfield_update_7200() {
 	  ->execute();
   }
   
-  drupal_get_schema(NULL, TRUE);
+  backdrop_get_schema(NULL, TRUE);
   entity_info_cache_clear();
 }
