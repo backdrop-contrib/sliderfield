@@ -366,7 +366,7 @@ function _sliderfield_element_sliderfield_structure($element, &$form_state) {
         array('system', 'ui.slider')
       ),
       'js' => array(
-        drupal_get_path('module', 'sliderfield') . '/sliderfield_element_sliderfield.js',
+        drupal_get_path('module', 'sliderfield') . '/js/sliderfield_element_sliderfield.js',
         array(
           'data' => array(
             'sliderfield_' . $element['#id'] => array(
@@ -400,7 +400,7 @@ function _sliderfield_element_sliderfield_structure($element, &$form_state) {
       ),
       'css' => array(
         array(
-          'data' => drupal_get_path('module', 'sliderfield') . '/sliderfield_element_sliderfield.css',
+          'data' => drupal_get_path('module', 'sliderfield') . '/css/sliderfield_element_sliderfield.css',
           'type' => 'file',
           //'group' => CSS_SYSTEM,
           'weight' => 2000,

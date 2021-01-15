@@ -54,11 +54,11 @@ function sliderfield_transfer_slider_process($element) {
       array('system', 'ui.slider')
     ),
     'js' => array(
-      drupal_get_path('module', 'sliderfield') . '/sliderfield_element_transfer_slider.js',
+      drupal_get_path('module', 'sliderfield') . '/js/sliderfield_element_transfer_slider.js',
     ),
     'css' => array(
       array(
-        'data' => drupal_get_path('module', 'sliderfield') . '/sliderfield_element_transfer_slider.css',
+        'data' => drupal_get_path('module', 'sliderfield') . '/css/sliderfield_element_transfer_slider.css',
         'type' => 'file',
         //'group' => CSS_SYSTEM,
         'weight' => 2000,
