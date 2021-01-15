@@ -28,12 +28,11 @@ All slider parameters are configurable either as parameters for form element or 
 - Compatibility with form api #states.
 - Customizable through #attributes and proper css wrappers.
 
-Notice : It's not yet possible to create two handled sliders via Field UI.
+Note: It's not yet possible to create two handled sliders via Field UI.
 
 ## Installation
 
 Enable the module at Administer >> Modules.
-
 
 ## FAQ
 
@@ -219,12 +218,12 @@ Bugs and Feature requests should be reported in the Issue Queue:
 
 ## Current Maintainers
 
-- Herb v/d Dool <https://github.com/herbdool>
+- [Herb v/d Dool](https://github.com/herbdool)
 - Seeking more maintainers.
 
 ## Credits
 
-Ported to Backdrop by Herb v/d Dool <https://github.com/herbdool>. Originally
+Ported to Backdrop by [Herb v/d Dool](https://github.com/herbdool). Originally
 developed for Drupal by [Sina Salek](https://www.drupal.org/u/sinasalek),
 [mrfelton](https://www.drupal.org/u/mrfelton), [jrowny](https://www.drupal.org/u/jrowny).
 
